@@ -5,21 +5,26 @@ include 'Resources/Rover.php';
 include 'Resources/Field.php';
 include 'Resources/Session.php';
 
-session_start();    
+session_start(); // inicializa o recupera la sesión
 
-if (isset($_POST['new'])) {
-    $session = new Session();
-}
-if (isset($_SESSION['rover'])) {
+if (isset($_POST['new']) || isset($_SESSION['rover'])) { // obtiene los datos del terreno y posición/orientación del Rover en caso de nuevo lanzamiento o los actuales de un lanzamiento anterior
     $session = new Session();
     $json_decode = json_decode($_SESSION['rover']);
     $field = new Field(intval($json_decode->width), intval($json_decode->height));
     $rover = new Rover(intval($json_decode->coordinateX), intval($json_decode->coordinateY), $json_decode->orientation);
+}
+
+if (isset($_POST['new'])) { // en caso de nuevo lanzamiento se compreba que no se haya perdido la cobertura del Rover
+    $session = new Session();
+    if ($rover->check($field) == false) {
+        $rover->messageLostCommunication();
+    }
+}
+
+if (isset($_SESSION['rover'])) { // en caso de orden al Rover se ejecuta y se compreba que no se haya perdido su cobertura
     if (isset($_POST['order'])) {
-        if ($rover->order($_POST['orders'], $field) == false) {
-            ?>
-                <div class="alert alert-danger" role="alert">Se ha perdido la comunicación con el Rover. Torpe!</div>            
-            <?php
+        if ($rover->order(strtoupper($_POST['orders']), $field) == false) {
+            $rover->messageLostCommunication();
         }
     }
     $session->save($field->getWidth(), $field->getHeight(), $rover->getCoordinateX(), $rover->getCoordinateY(), $rover->getOrientation());
@@ -42,6 +47,8 @@ if (isset($_SESSION['rover'])) {
         }
 
         .rover {
+            background-color: aqua;
+            color: blue;
             font-size: 24px;
             text-align: center;
         }
@@ -50,25 +57,21 @@ if (isset($_SESSION['rover'])) {
 
 <body>
     <div class="container-fluid">
-        <h1>Rover Project</h1>
+        <h1>The Rover Project</h1>
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#new" aria-expanded="false" aria-controls="new">
+            Nuevo lanzamiento
+        </button>
         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#post" aria-expanded="false" aria-controls="post">
             POST variables
         </button>
         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#session" aria-expanded="false" aria-controls="session">
             SESSION variables
         </button>
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#new" aria-expanded="false" aria-controls="new">
-            Nuevo lanzamiento
-        </button>
         <div class="collapse" id="post">
-            <pre>
-                <?php var_dump($_POST) ?>
-            </pre>
+            <pre>POST JSON: <?= json_encode($_POST) ?></pre>
         </div>
         <div class="collapse" id="session">
-            <pre>
-                <?php var_dump($_SESSION['rover']) ?>
-            </pre>
+            <pre>SESSION JSON: <?= $_SESSION['rover'] ?></pre>
         </div>
         <div class="collapse" id="new">
             <form novalidate action="index.php" method="post">
@@ -122,7 +125,7 @@ if (isset($_SESSION['rover'])) {
                     </label>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary" name="new" value="1">Lanzar rover</button>
+                    <button type="submit" class="btn btn-primary" name="new" value=1>Lanzar rover</button>
                 </div>
             </form>
         </div>
@@ -131,10 +134,10 @@ if (isset($_SESSION['rover'])) {
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" name="orders" id="orders" aria-describedby="ordersHelp" placeholder="Órdenes">
                     <label for="orders">Órdenes</label>
-                    <small id="ordersHelp" class="form-text text-muted">Debe ser una o más órdenes L / R / A.</small>
+                    <small id="ordersHelp" class="form-text text-muted">Debe ser una o más órdenes (caracteres L / R / A, el resto son ignorados)</small>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary" name="order" value="1">Ordenar </button>
+                    <button type="submit" class="btn btn-primary" name="order" value=1>Ordenar </button>
                 </div>
             </form>
         <?php } ?>

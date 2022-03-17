@@ -78,6 +78,11 @@ class Rover
         return $this;
     }
 
+    /**
+     * Procesa las órdenes del Rover
+     *
+     * @return boolean false si se perdió la comunicación con el rover, true si se mantiene.
+     */
     public function order($ordenes, Field $field)
     {
 
@@ -99,6 +104,11 @@ class Rover
         return true;
     }
 
+    /**
+     * Gira el Rover en sentido de las agujas del reloj o en sentido contrario.
+     *
+     * @return void
+     */
     public function gear($clockwise = true)
     {
         $orientation = $this->getOrientation();
@@ -106,6 +116,11 @@ class Rover
         $this->setOrientation($this->orientations[(4 + $position + ($clockwise ? 1 : -1)) % 4]);
     }
 
+    /**
+     * Mueve el Rover en el terreno
+     * 
+     * @return boolean false si se perdió la comunicación con el rover, true si se mantiene.
+     */
     public function move(Field $field)
     {
         $orientation = $this->getOrientation();
@@ -126,6 +141,11 @@ class Rover
         return $this->check($field);
     }
 
+    /**
+     * Comprueba si se perdió la comunicación con el Rover en el terreno
+     * 
+     * @return boolean false si se perdió la comunicación con el rover, true si se mantiene.
+     */
     public function check(Field $field)
     {
         if (
@@ -139,4 +159,39 @@ class Rover
             return true;
         }
     }
+
+    /**
+     * Dibuja el Rover según su orientación
+     * 
+     * @return void
+     */
+    public function draw() {
+        echo '<td class="rover">';
+        switch ($this->getOrientation()) {
+            case 'N':
+                echo '&#8593;';
+                break;
+            case 'E':
+                echo '&#8594;';
+                break;
+            case 'S':
+                echo '&#8595;';
+                break;
+            case 'W':
+                echo '&#8592;';
+                break;
+        }
+        echo '</td>';
+    }    
+
+    
+    /**
+     * Escribe en pantalla que el Rover ha perdido la comunicación
+     * 
+     * @return void
+     */
+    public function messageLostCommunication() {
+        echo '<div class="alert alert-danger" role="alert">Se ha perdido la comunicación con el Rover!</div>';
+    }
+
 }

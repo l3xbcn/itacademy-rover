@@ -12,6 +12,9 @@ class Field
         $this->setHeight($height);
     }
 
+    /**
+     * Get the value of width
+     */ 
     public function getWidth()
     {
         return $this->width;
@@ -49,40 +52,22 @@ class Field
         return $this;
     }
 
+    /**
+     * Dibuja el terreno y al Rover en él según su posición y orientación
+     */
     public function draw(Rover $rover) {
         echo '<table class="table-bordered">';
         for($y = $this->height-1; $y >= 0 ; $y--) {
             echo '<tr>';
             for ($x = 0; $x < $this->width ; $x++) {
-                echo '<td>';
                 if ($rover->getCoordinateY() == $y && $rover->getCoordinateX() == $x) {
-                    $this->drawRover($rover);
+                    $rover->draw();
                 }
-                else echo ' ';
-                echo '</td>';
+                else echo '<td></td>';
             }
             echo '</tr>';
         }
         echo '</table>';
-    }
-
-    public function drawRover(Rover $rover) {
-        echo '<span class="rover">';
-        switch ($rover->getOrientation()) {
-            case 'N':
-                echo '↑';
-                break;
-            case 'E':
-                echo '→';
-                break;
-            case 'S':
-                echo '↓';
-                break;
-            case 'W':
-                echo '←';
-                break;
-        }
-        echo '</span>';
     }
 
 }
