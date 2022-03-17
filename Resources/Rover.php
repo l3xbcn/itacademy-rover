@@ -78,26 +78,32 @@ class Rover
         return $this;
     }
 
-    public function operate($ordenes)
+    public function order($ordenes, Field $field)
     {
 
-        foreach ($ordenes as $orden) {
+        foreach (str_split($ordenes) as $orden) {
             switch ($orden) {
                 case 'L':
                     $this->gear(false);
+                    break;
                 case 'R':
                     $this->gear();
+                    break;
                 case 'A':
-                    $this->move();
+                    if ($this->move($field) == false) {
+                        return false;
+                    };
+                    break;
             }
         }
+        return true;
     }
 
     public function gear($clockwise = true)
     {
         $orientation = $this->getOrientation();
         $position = strpos($this->orientations, $orientation);
-        $this->setOrientation($this->orientations[($position + ($clockwise ? 1 : -1)) % 4]);
+        $this->setOrientation($this->orientations[(4 + $position + ($clockwise ? 1 : -1)) % 4]);
     }
 
     public function move(Field $field)
@@ -117,14 +123,14 @@ class Rover
                 $this->setCoordinateX($this->getCoordinateX() - 1);
                 break;
         }
-        $this->check($field);
+        return $this->check($field);
     }
 
     public function check(Field $field)
     {
         if (
-            $this->getCoordinateY() > $field->getHeight() |
-            $this->getCoordinateX() > $field->getWidth() |
+            $this->getCoordinateY() >= $field->getHeight() |
+            $this->getCoordinateX() >= $field->getWidth() |
             $this->getCoordinateY() < 0 |
             $this->getCoordinateX() < 0
         ) {

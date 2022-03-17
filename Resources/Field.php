@@ -51,12 +51,14 @@ class Field
 
     public function draw(Rover $rover) {
         echo '<table class="table-bordered">';
-        for($y = $this->height -1; $y < 0 ; $y--) {
+        for($y = $this->height-1; $y >= 0 ; $y--) {
             echo '<tr>';
-            for ($x = $this->width -1; $x < 0 ; $x--) {
+            for ($x = 0; $x < $this->width ; $x++) {
                 echo '<td>';
                 if ($rover->getCoordinateY() == $y && $rover->getCoordinateX() == $x) {
+                    $this->drawRover($rover);
                 }
+                else echo ' ';
                 echo '</td>';
             }
             echo '</tr>';
@@ -65,6 +67,7 @@ class Field
     }
 
     public function drawRover(Rover $rover) {
+        echo '<span class="rover">';
         switch ($rover->getOrientation()) {
             case 'N':
                 echo '↑';
@@ -79,6 +82,7 @@ class Field
                 echo '←';
                 break;
         }
+        echo '</span>';
     }
 
 }
