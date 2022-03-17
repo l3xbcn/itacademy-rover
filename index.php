@@ -21,14 +21,14 @@ if (isset($_POST['new'])) { // en caso de nuevo lanzamiento se compreba que no s
     }
 }
 
-if (isset($_SESSION['rover'])) { // en caso de orden al Rover se ejecuta y se compreba que no se haya perdido su cobertura
+if (isset($_SESSION['rover'])) { // en caso de orden al Rover se ejecuta y se compreba que no se haya perdido su cobertura.
     if (isset($_POST['order'])) {
         if ($rover->order(strtoupper($_POST['orders']), $field) == false) {
             $rover->messageLostCommunication();
         }
     }
-    $session->save($field->getWidth(), $field->getHeight(), $rover->getCoordinateX(), $rover->getCoordinateY(), $rover->getOrientation());
-    $field->draw($rover);
+    $session->save($field->getWidth(), $field->getHeight(), $rover->getCoordinateX(), $rover->getCoordinateY(), $rover->getOrientation()); // Se guardan los datos actuales del Rover en la variable de sesión. También se guardan los datos del terreno aunque no cambien porque ambos se codifican en una variable de sesión en un JSON
+    $field->draw($rover); // Se dibuja el terreno y se sitúa en él al Rover
 }
 
 ?>
