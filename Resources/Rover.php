@@ -185,13 +185,6 @@ class Rover
     }    
 
     
-    /**
-     * Escribe en pantalla que el Rover ha perdido la comunicación
-     * 
-     * @return void
-     */
-    public function messageLostCommunication() {
-        echo '<div class="alert alert-danger" role="alert">Se ha perdido la comunicación con el Rover!</div>';
-    }
+    
 
 }
