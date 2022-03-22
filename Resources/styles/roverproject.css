@@ -1,0 +1,25 @@
+body, table {
+    margin: 32px;
+}
+td,
+.rover {
+    width: 32px;
+    height: 32px;
+}
+.coordinate {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+.rover {
+    background-color: aqua;
+    color: blue;
+    font-size: 24px;
+    text-align: center;
+}
+h1 a {
+    text-decoration: none;
+    color:black;
+    font-weight: bold;            
+}

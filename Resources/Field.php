@@ -59,6 +59,7 @@ class Field
         echo '<table class="table-bordered">';
         for($y = $this->height-1; $y >= 0 ; $y--) {
             echo '<tr>';
+            echo "<td class=\"coordinate\">$y</td>";
             for ($x = 0; $x < $this->width ; $x++) {
                 if ($rover->getCoordinateY() == $y && $rover->getCoordinateX() == $x) {
                     $rover->draw();
@@ -66,6 +67,10 @@ class Field
                 else echo '<td></td>';
             }
             echo '</tr>';
+        }
+        echo '<td></td>';
+        for ($x = 0; $x < $this->width ; $x++) {
+            echo "<td class=\"coordinate\">$x</td>";
         }
         echo '</table>';
     }
