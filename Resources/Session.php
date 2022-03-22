@@ -15,7 +15,7 @@ class Session {
             $height       = intval($_POST['height']);
             $coordinateX  = intval($_POST['coordinate-x']);
             $coordinateY  = intval($_POST['coordinate-y']);
-            $orientation  = preg_match('/[NSEW]/',$_POST['orientation']) ? $_POST['orientation'] : 'N';
+            $orientation  = preg_match('/[' . Rover::$orientations . ']/',$_POST['orientation']) ? $_POST['orientation'] : 'N';
             $this->save($width, $height, $coordinateX, $coordinateY, $orientation);
         }
     }

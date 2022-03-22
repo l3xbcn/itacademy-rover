@@ -9,7 +9,7 @@ class Rover
     private int $coordinateX;
     private int $coordinateY;
     private string $orientation;
-    private string $orientations = 'NESW';
+    public static $orientations = 'NESW';
 
     function __construct($coordinateX, $coordinateY, $orientation)
     {
@@ -111,9 +111,8 @@ class Rover
      */
     public function gear($clockwise = true)
     {
-        $orientation = $this->getOrientation();
-        $position = strpos($this->orientations, $orientation);
-        $this->setOrientation($this->orientations[(4 + $position + ($clockwise ? 1 : -1)) % 4]);
+        $position = strpos(self::$orientations, $this->getOrientation());
+        $this->setOrientation(self::$orientations[(4 + $position + ($clockwise ? 1 : -1)) % 4]);
     }
 
     /**
