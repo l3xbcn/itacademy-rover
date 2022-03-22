@@ -11,16 +11,18 @@ session_start(); // inicializa o recupera la sesión
 if (isset($_POST['new']) || isset($_SESSION['rover'])) { // obtiene los datos del terreno y posición/orientación del Rover en caso de nuevo lanzamiento o los actuales de un lanzamiento anterior
     $session = new Session();
     $json_decode = json_decode($_SESSION['rover']);
-    if ($json_decode->width < 1 || $json_decode->height < 1) {
+    $field = new Field(intval($json_decode->width), intval($json_decode->height));
+    if (!$field->check()) {
+        // En caso de que los datos del terreno no sean correctos los borra y borra también los datos de sesión
+        unset($field);
+        unset($_SESSION['rover']);
         Error::fieldDataBad();
     } else {
-        $field = new Field(intval($json_decode->width), intval($json_decode->height));
         $rover = new Rover(intval($json_decode->coordinateX), intval($json_decode->coordinateY), $json_decode->orientation);
     }
 }
 
-if (isset($_POST['new']) && isset($field)) { // en caso de nuevo lanzamiento - correcto - se compreba que no se haya perdido la cobertura del Rover
-    $session = new Session();
+if (isset($_POST['new']) && isset($field)) { // en caso de nuevo lanzamiento - sobre un terreno con tamaño correcto - se comprueba que no se haya perdido la cobertura del Rover
     if ($rover->check($field) == false) {
         Error::lost();
     }

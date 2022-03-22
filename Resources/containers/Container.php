@@ -22,23 +22,23 @@
             <div class="form-floating mb-3">
                 <input type="number" class="form-control" name="width" id="width" aria-describedby="widthHelp" placeholder="Anchura del terreno" min=1>
                 <label for="exampleInputEmail1">Anchura del terreno</label>
-                <small id="widthHelp" class="form-text text-muted">Debe ser un número.</small>
+                <small id="widthHelp" class="form-text text-muted">Debe ser un número mayor que 0.</small>
             </div>
             <div class="form-floating mb-3">
                 <input type="number" class="form-control" name="height" id="height" aria-describedby="heightHelp" placeholder="Altura del terreno" min=1>
                 <label for="exampleInputEmail1">Altura del terreno</label>
-                <small id="heightHelp" class="form-text text-muted">Debe ser un número.</small>
+                <small id="heightHelp" class="form-text text-muted">Debe ser un número mayor que 0.</small>
             </div>
             <h2>Rover</h2>
             <div class="form-floating mb-3">
                 <input type="number" class="form-control" name="coordinate-x" id="coordinate-x" aria-describedby="coordinate-xHelp" placeholder="Coordenada X del rover" min=0>
                 <label for="coordinate-x">Coordenada X del rover</label>
-                <small id="coordinate-xHelp" class="form-text text-muted">Debe ser un número.</small>
+                <small id="coordinate-xHelp" class="form-text text-muted">Debe ser un número (entre 0 y anchura del terreno-1, por defecto 0).</small>
             </div>
             <div class="form-floating mb-3">
                 <input type="number" class="form-control" name="coordinate-y" id="coordinate-y" id="coordinate-y" aria-describedby="coordinate-yHelp" placeholder="Coordenada Y del rover" min=0>
                 <label for="coordinate-y">Coordenada Y del rover</label>
-                <small id="coordinate-yHelp" class="form-text text-muted">Debe ser un número.</small>
+                <small id="coordinate-yHelp" class="form-text text-muted">Debe ser un número (entre 0 y altura del terreno-1, por defecto 0).</small>
             </div>
             <label class="form-check-label">
                 Orientación

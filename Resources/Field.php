@@ -74,5 +74,14 @@ class Field
         }
         echo '</table>';
     }
+ 
+    /**
+     * Comprueba que el terreno tenga un tamaño mínimo
+     * 
+     * @return boolean false si no tiene el tamaño mínimo de 1x1, true si lo tiene
+     */
+    public function check() {
+        return ($this->width > 0 && $this->height > 0);
+    }
 
 }
