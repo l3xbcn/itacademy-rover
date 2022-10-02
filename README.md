@@ -1,8 +1,8 @@
 # itacademy-rover
 <p>Calificación obtenida en la prueba: 10 sobre 10</p>
 
+<p>Se necesita un programa que valide las instrucciones que serán utilizadas por un Coche en Marte</p>
 <ul>
-<li>Se necesita un programa que valide las instrucciones que serán utilizadas por un Coche en Marte</li>
 <li>Cada rover está incluido en un cuadrado y puede recibir las siguientes ordenes A (Avanzar) , L (Izquierda) , R (Derecha)</li>
 <li>El programa tiene que validar que el rover está dentro de el cuadrado y debe indicarnos su orientación final ( N, S, E, W)</li>
 <li>El programa recibirá las dimensiones del cuadrado ( anchura y altura) y se asume que las coordenadas ( 0, 0) es la esquina de abajo a la izquierda.</li>
